@@ -171,6 +171,34 @@
 
 ---
 
+## Запуск проєкту
+
+### Клонувати репозиторій
+
+```bash
+git clone https://github.com/Heloleh/CoureWWork.git
+```
+
+### Перейти в директорію проєкту
+```bash
+cd CoureWWork
+```
+### Встановити залежності
+```bash
+pip install -r requirements.txt
+```
+
+# Запустіть локальний сервер MongoDB Compass
+
+# Запустити додаток
+```bash
+python app.py
+```
+### Відкрити у браузері
+```
+http://localhost:5000
+```
+
 ## Джерела
 Цей проєкт створено з використанням:
 - Офіційна документація Flask. URL: https://flask.palletsprojects.com/ 
