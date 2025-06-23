@@ -1,0 +1,39 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="bg-white p-6 rounded-lg shadow-md transform transition-all duration-300 hover:shadow-xl">
+    <h2 class="text-2xl font-bold mb-4 animate-slide-in">{{ medicine.name }}</h2>
+    <img src="{{ medicine.image }}" alt="{{ medicine.name }}" class="w-full h-64 object-cover rounded mb-4 transform transition-transform duration-300 hover:scale-105">
+    <p class="text-gray-600 mb-4">{{ medicine.description }}</p>
+    <p class="text-lg font-semibold mb-4">₴{{ medicine.price }}</p>
+    <a href="{{ url_for('cart.add_to_cart', medicine_id=medicine._id) }}" class="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700 transform transition-transform duration-200 hover:scale-105 animate-pulse-button">Add to Cart</a>
+    <h3 class="text-xl font-bold mt-6 mb-2">Reviews</h3>
+    {% for review in reviews %}
+    <div class="border-t pt-2 animate-slide-in">
+        <p><strong>{{ review.username }}</strong> ({{ review.rating }}/5)</p>
+        <p>{{ review.comment }}</p>
+        <p class="text-sm text-gray-500">{{ review.created_at }}</p>
+        {% if session.user_id == review.user_id or session.role == 'admin' %}
+        <a href="{{ url_for('reviews.delete_review', review_id=review._id) }}" class="text-red-600 hover:underline transform transition-transform duration-200 hover:scale-105" onclick="return confirm('Are you sure you want to delete this review?')">Delete</a>
+        {% endif %}
+    </div>
+    {% endfor %}
+    <h3 class="text-xl font-bold mt-6 mb-2">Leave a Review</h3>
+    <form method="POST" action="{{ url_for('reviews.add_review', medicine_id=medicine._id) }}" class="animate-slide-in">
+        <div class="mb-4">
+            <label for="rating" class="block text-gray-700">Rating</label>
+            <select name="rating" id="rating" class="w-full p-2 border rounded" required>
+                <option value="1">1</option>
+                <option value="2">2</option>
+                <option value="3">3</option>
+                <option value="4">4</option>
+                <option value="5">5</option>
+            </select>
+        </div>
+        <div class="mb-4">
+            <label for="comment" class="block text-gray-700">Comment</label>
+            <textarea name="comment" id="comment" class="w-full p-2 border rounded" required></textarea>
+        </div>
+        <button type="submit" class="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700 transform transition-transform duration-200 hover:scale-105 animate-pulse-button">Submit Review</button>
+    </form>
+</div>
+{% endblock %}

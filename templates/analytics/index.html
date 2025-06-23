@@ -1,0 +1,11 @@
+{% extends "base.html" %}
+{% block content %}
+<h2 class="text-2xl font-bold mb-4">Analytics</h2>
+<div class="bg-white p-6 rounded-lg shadow-md">
+    <p>Total Orders: {{ total_orders }}</p>
+    <h3 class="text-xl font-bold mt-4 mb-2">Popular Medicines</h3>
+    {% for medicine in popular_medicines %}
+    <p>Medicine ID: {{ medicine._id }} (Ordered {{ medicine.count }} times)</p>
+    {% endfor %}
+</div>
+{% endblock %}

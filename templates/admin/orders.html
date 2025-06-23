@@ -1,0 +1,39 @@
+{% extends "base.html" %}
+{% block content %}
+<h2 class="text-2xl font-bold mb-4 animate-slide-in">Manage Orders</h2>
+<div class="space-y-6">
+    {% for order_data in orders %}
+    <div class="bg-white p-6 rounded-lg shadow-md card animate-slide-in">
+        <h3 class="text-xl font-bold mb-2">Order #{{ order_data.order._id }}</h3>
+        <p><strong>Status:</strong> {{ order_data.order.status }}</p>
+        <p><strong>Date:</strong> {{ order_data.order.created_at }}</p>
+        <h4 class="text-lg font-semibold mt-4 mb-2">Items</h4>
+        <ul class="list-disc pl-5">
+            {% for item in order_data.items_list %}
+            <li>{{ item.name }} - ₴{{ item.price }}</li>
+            {% endfor %}
+        </ul>
+        <h4 class="text-lg font-semibold mt-4 mb-2">Delivery Information</h4>
+        {% if order_data.order.delivery_data %}
+        <p><strong>Name:</strong> {{ order_data.order.delivery_data.name }}</p>
+        <p><strong>Phone:</strong> {{ order_data.order.delivery_data.phone }}</p>
+        <p><strong>Address:</strong> {{ order_data.order.delivery_data.address }}</p>
+        <p><strong>City:</strong> {{ order_data.order.delivery_data.city }}</p>
+        <p><strong>Postal Code:</strong> {{ order_data.order.delivery_data.postal_code }}</p>
+        {% else %}
+        <p>No delivery information available.</p>
+        {% endif %}
+        <form method="POST" action="{{ url_for('admin.update_order', order_id=order_data.order._id) }}" class="mt-4">
+            <label for="status" class="block text-gray-700">Update Status</label>
+            <select name="status" id="status" class="w-full p-2 border rounded">
+                <option value="pending" {% if order_data.order.status == 'pending' %}selected{% endif %}>Pending</option>
+                <option value="shipped" {% if order_data.order.status == 'shipped' %}selected{% endif %}>Shipped</option>
+                <option value="delivered" {% if order_data.order.status == 'delivered' %}selected{% endif %}>Delivered</option>
+            </select>
+            <button type="submit" class="mt-2 bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700 transform transition-transform duration-200 hover:scale-105 animate-pulse-button">Update Status</button>
+        </form>
+        <a href="{{ url_for('admin.delete_order', order_id=order_data.order._id) }}" class="mt-2 inline-block text-red-600 hover:underline transform transition-transform duration-200 hover:scale-105" onclick="return confirm('Are you sure you want to delete this order?')">Delete Order</a>
+    </div>
+    {% endfor %}
+</div>
+{% endblock %}

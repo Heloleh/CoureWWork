@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+{% block content %}
+<h2 class="text-2xl font-bold mb-4 animate-slide-in">Your Orders</h2>
+<div class="space-y-6">
+    {% for order_data in orders %}
+    <div class="bg-white p-6 rounded-lg shadow-md card animate-slide-in">
+        <h3 class="text-xl font-bold mb-2">Order #{{ order_data.order._id }}</h3>
+        <p><strong>Status:</strong> {{ order_data.order.status }}</p>
+        <p><strong>Date:</strong> {{ order_data.order.created_at }}</p>
+        <h4 class="text-lg font-semibold mt-4 mb-2">Items</h4>
+        <ul class="list-disc pl-5">
+            {% for item in order_data.items_list %}
+            <li>{{ item.name }} - ₴{{ item.price }}</li>
+            {% endfor %}
+        </ul>
+        <h4 class="text-lg font-semibold mt-4 mb-2">Delivery Information</h4>
+        {% if order_data.order.delivery_data %}
+        <p><strong>Name:</strong> {{ order_data.order.delivery_data.name }}</p>
+        <p><strong>Phone:</strong> {{ order_data.order.delivery_data.phone }}</p>
+        <p><strong>Address:</strong> {{ order_data.order.delivery_data.address }}</p>
+        <p><strong>City:</strong> {{ order_data.order.delivery_data.city }}</p>
+        <p><strong>Postal Code:</strong> {{ order_data.order.delivery_data.postal_code }}</p>
+        {% else %}
+        <p>No delivery information available.</p>
+        {% endif %}
+    </div>
+    {% endfor %}
+</div>
+{% endblock %}
