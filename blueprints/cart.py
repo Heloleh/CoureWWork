@@ -23,7 +23,6 @@ def view_cart():
     cart_items = mongo.db.medicines.find({'_id': {'$in': [ObjectId(id) for id in session['cart']]}})
     return render_template('cart/index.html', cart_items=cart_items)
 
-# ✅ Новий маршрут для видалення товару з кошика
 @cart_bp.route('/remove/<medicine_id>')
 def remove_from_cart(medicine_id):
     if 'cart' in session and medicine_id in session['cart']:
